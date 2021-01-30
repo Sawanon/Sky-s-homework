@@ -112,5 +112,28 @@ session_start();
         <input type="hidden" name="menu" value="report">
       </form>
     </div>
+    <div style="border-style: solid;">
+    <h2>โอนเงินจ้า</h2>
+      <form action="test.php" method="post">
+        <table>
+          <tr>
+            <td>ID sender : </td><td><input type="text" name="idsender"></td>
+          </tr>
+          <tr>
+            <td>Password : </td><td><input type="password" name="pass"></td>
+          </tr>
+          <tr>
+            <td>ID rev : </td><td><input type="text" name="idrev"></td>
+          </tr>
+          <tr>
+            <td>ยอดเงินที่จะโอน : </td><td><input type="text" name="amount"></td>
+          </tr>
+          <tr>
+            <td><input type="submit" value="โอนเงิน"><input type="reset" value="รีเซ็ต"></td>
+          </tr>
+        </table>
+        <input type="hidden" name="menu" value="tranfer">
+      </form>
+    </div>
   </body>
 </html>

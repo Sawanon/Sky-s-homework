@@ -81,8 +81,24 @@ class Bank{
         echo "ไม่มีรหัสจ่ะ";
       }
     }
-    function Transfer(){
-
+    function Transfer($idsender,$pass,$idrev,$amount){
+      if(isset($_SESSION['id'])){
+        foreach ($_SESSION['id'] as $key => $value) {
+          if($value==$idsender&&$_SESSION['pass'][$key]==$pass){
+            // id pass ผู้ส่งถูกต้องล่ะ
+            if($_SESSION['balance'][$key]<$amount){
+              echo "เงินไม่พอที่จะทำรายการโอนนะจ้ะ";
+            }else{
+              $_SESSION['balance'][$key]-=$amount;
+              foreach ($_SESSION['id'] as $key => $value) {
+                if($value==$idrev){
+                  $_SESSION['balance'][$key]+=$amount;
+                }
+              }
+            }
+          }
+        }
+      }
     }
 }
  ?>
@@ -97,24 +113,30 @@ class Bank{
     <?php
     $probank = new Bank();
     if ($_POST['menu']=="register") {
-        $id = $_POST['id'];
-        $name = $_POST['name'];
-        $pass = $_POST['pass'];
-        $balance = $_POST['balance'];
-        $probank->Regis($id,$name,$pass,$balance);
+      $id = $_POST['id'];
+      $name = $_POST['name'];
+      $pass = $_POST['pass'];
+      $balance = $_POST['balance'];
+      $probank->Regis($id,$name,$pass,$balance);
     }else if($_POST['menu']=="deposit"){
-        $id = $_POST['id'];
-        $amount = $_POST['amount'];
-        $probank->Deposit($id,$amount);
+      $id = $_POST['id'];
+      $amount = $_POST['amount'];
+      $probank->Deposit($id,$amount);
     }else if($_POST['menu']=="withdraw"){
-        $id = $_POST['id'];
-        $pass = $_POST['pass'];
-        $amount = $_POST['amount'];
-        $probank->Withdraw($id,$pass,$amount);
+      $id = $_POST['id'];
+      $pass = $_POST['pass'];
+      $amount = $_POST['amount'];
+      $probank->Withdraw($id,$pass,$amount);
     }else if ($_POST['menu']=="report") {
-        $id = $_POST['id'];
-        $pass = $_POST['pass'];
-        echo $probank->Report($id,$pass);
+      $id = $_POST['id'];
+      $pass = $_POST['pass'];
+      echo $probank->Report($id,$pass);
+    }else if($_POST['menu']=="tranfer"){
+      $idsender = $_POST['idsender'];
+      $pass = $_POST['pass'];
+      $idrev = $_POST['idrev'];
+      $amount = $_POST['amount'];
+      $probank->Transfer($idsender,$pass,$idrev,$amount);
     }
      ?>
     <a href="index.php"><input type="button" value="back"></a>
