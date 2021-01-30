@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php 
+<?php
 session_start();
 // session_destroy();
 ?>
@@ -11,7 +11,7 @@ session_start();
   <body>
   <a href="destroy.php"> <input type="button" value="Destroy"> </a>
   <?php
-    print_r($_SESSION['id']);
+    //print_r($_SESSION['id']);
   ?>
   <table border='1'>
     <tr>
@@ -21,9 +21,9 @@ session_start();
       foreach ($_SESSION['id'] as $key => $value) {
         ?>
     <tr>
-      <td><?php echo $value; ?></td> 
-      <td><?php echo $_SESSION['name'][$key]; ?></td> 
-      <td><?php echo $_SESSION['pass'][$key]; ?></td> 
+      <td><?php echo $value; ?></td>
+      <td><?php echo $_SESSION['name'][$key]; ?></td>
+      <td><?php echo $_SESSION['pass'][$key]; ?></td>
       <td><?php echo $_SESSION['balance'][$key]; ?></td>
     </tr>
     <?php
@@ -70,6 +70,46 @@ session_start();
         <input type="submit" value="ฝาก">
         <input type="reset" value="รีเซ็ต">
         <input type="hidden" name="menu" value="deposit">
+      </form>
+    </div>
+    <div style="border-style: solid;">
+    <h2>ถอนเงินจ้า</h2>
+      <form action="test.php" method="post">
+        <table>
+          <tr>
+            <td>ID :</td>
+            <td><input type="text" name="id" required></td>
+          </tr>
+          <tr>
+            <td>Password :</td>
+            <td><input type="password" name="pass" required></td>
+          </tr>
+          <tr>
+            <td>จำนวนเงินที่จะถอน :</td>
+            <td><input type="text" name="amount"></td>
+          </tr>
+        </table>
+        <input type="submit" value="ถอน">
+        <input type="reset" value="รีเซ็ต">
+        <input type="hidden" name="menu" value="withdraw">
+      </form>
+    </div>
+    <div style="border-style: solid;">
+    <h2>ดูยอดเงิน</h2>
+      <form action="test.php" method="post">
+        <table>
+          <tr>
+            <td>ID :</td>
+            <td><input type="text" name="id" required></td>
+          </tr>
+          <tr>
+            <td>Password :</td>
+            <td><input type="password" name="pass" required></td>
+          </tr>
+        </table>
+        <input type="submit" value="ดูยอดเงิน">
+        <input type="reset" value="รีเซ็ต">
+        <input type="hidden" name="menu" value="report">
       </form>
     </div>
   </body>

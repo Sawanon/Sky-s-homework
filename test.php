@@ -1,25 +1,15 @@
 <?php
 session_start();
-$probank = new Bank();
-if ($_POST['menu']=="register") {
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $pass = $_POST['pass'];
-    $balance = $_POST['balance'];
-    $probank->Regis($id,$name,$pass,$balance);
-}else if($_POST['menu']=="deposit"){
-    $id = $_POST['id'];
-    $amount = $_POST['amount'];
-    $probank->Deposit($id,$amount);
-}
 class Bank{
     function Regis($id,$name,$pass,$balance){
+      if (isset($_SESSION['id'])) {
         foreach ($_SESSION['id'] as $key => $value) {
-           if ($value==$id) {
-               $checkid = true;
-               echo "ID ซ้ำนะจ้ะ";
-           }
+          if ($value==$id) {
+            $checkid = true;
+            echo "ID ซ้ำนะจ้ะ";
+          }
         }
+    }
         if(@$checkid==false){
             $_SESSION["id"][]=$id;
             $_SESSION['name'][]=$name;
@@ -28,22 +18,73 @@ class Bank{
         }
     }
     function Deposit($id,$amount){
+      if (isset($_SESSION['id'])) {
         foreach ($_SESSION['id'] as $key => $value) {
-            if ($value==$id){
-                $_SESSION['balance'][$key]+=$amount;
-            }
+          if ($value==$id) {
+            $checkid = true;
+            $_SESSION['balance'][$key]+=$amount;
+          }
         }
+         if(!isset($checkid)){
+          echo "ไม่มีรหัส";
+        }
+            }
+          }
+
+
+
+    function Withdraw($id,$pass,$amount){
+      if (isset($_SESSION['id'])) {
+        foreach ($_SESSION['id'] as $key => $value) {
+            if ($value==$id&&$_SESSION['pass'][$key]==$pass){
+              $checkid = true;
+              if ($_SESSION['balance'][$key]<$amount) {
+                echo "เงินไม่พอ";
+              }else
+                $_SESSION['balance'][$key]-=$amount;
+          }
+        }
+        if(!isset($checkid)){
+         echo "ID หรือ รหัสผ่าน ไม่ถูกต้อง";
+       }
+      }else{
+        echo "ไม่มีรหัสจ่ะ";
+      }
+    }
+    function Report($id,$pass){
+      if (isset($_SESSION['id'])) {
+        foreach ($_SESSION['id'] as $key => $value) {
+            if ($value==$id&&$_SESSION['pass'][$key]==$pass){
+              $checkid = true;
+              echo "<table border='1'>";
+              echo "<tr>";
+              echo "<td>id</td><td>name</td><td>balance</td>";
+              echo "</tr>";
+              echo "<tr>";
+              echo "<td>";
+              echo $_SESSION['id'][$key];
+              echo "</td>";
+              echo "<td>";
+              echo $_SESSION['name'][$key];
+              echo "</td>";
+              echo "<td>";
+              echo $_SESSION['balance'][$key];
+              echo "</td>";
+              echo "</tr>";
+              echo "</table>";
+          }
+        }
+        if(!isset($checkid)){
+         echo "ID หรือ รหัสผ่าน ไม่ถูกต้อง";
+       }
+      }else{
+        echo "ไม่มีรหัสจ่ะ";
+      }
+    }
+    function Transfer(){
+
     }
 }
-// $id = $_SESSION['id'];
-print_r($_SESSION['id']);
-// $_SESSION["bankaccount"]['id']=$_POST["ID"];
-// $_SESSION["bankaccount"]['PASS']=$_POST["PASS"];
-// $_SESSION["bankaccount"]['Balance']=$_POST["Balance"];
-
-// $test = new Bank();
-// echo $test->Regis('11','22','name1','100');
-
  ?>
  <!DOCTYPE html>
  <html lang="en">
@@ -52,7 +93,30 @@ print_r($_SESSION['id']);
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Document</title>
  </head>
- <body>
+ <body><center>
+    <?php
+    $probank = new Bank();
+    if ($_POST['menu']=="register") {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $pass = $_POST['pass'];
+        $balance = $_POST['balance'];
+        $probank->Regis($id,$name,$pass,$balance);
+    }else if($_POST['menu']=="deposit"){
+        $id = $_POST['id'];
+        $amount = $_POST['amount'];
+        $probank->Deposit($id,$amount);
+    }else if($_POST['menu']=="withdraw"){
+        $id = $_POST['id'];
+        $pass = $_POST['pass'];
+        $amount = $_POST['amount'];
+        $probank->Withdraw($id,$pass,$amount);
+    }else if ($_POST['menu']=="report") {
+        $id = $_POST['id'];
+        $pass = $_POST['pass'];
+        echo $probank->Report($id,$pass);
+    }
+     ?>
     <a href="index.php"><input type="button" value="back"></a>
  </body>
  </html>
