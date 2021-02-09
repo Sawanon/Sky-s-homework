@@ -126,7 +126,7 @@ session_start();
             <td>ID rev : </td><td><input type="text" name="idrev"></td>
           </tr>
           <tr>
-            <td>ยอดเงินที่จะโอน : </td><td><input type="text" name="amount"></td>
+            <td>ยอดเงินที่จะโอนนะ : </td><td><input type="text" name="amount"></td>
           </tr>
           <tr>
             <td><input type="submit" value="โอนเงิน"><input type="reset" value="รีเซ็ต"></td>
