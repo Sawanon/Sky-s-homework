@@ -11,6 +11,8 @@ session_destroy();
     <title>Document</title>
 </head>
 <body>
-    
+    <?php
+    echo "test";
+    ?>
 </body>
 </html>
